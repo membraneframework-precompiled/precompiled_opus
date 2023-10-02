@@ -6,7 +6,7 @@ workflows:
   precompile:
     jobs:
       - elixir/precompile_for_macos_intel: &parameters
-          package-name: opus 
+          package-name: opus
           expected-version: << pipeline.git.tag >>
           filters:
             tags:
