@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  elixir: membraneframework/elixir@dev:f059a80129a175c0b4e2d520bb686ef202d8a65b
+  elixir: membraneframework/elixir@1.4
 
 workflows:
   precompile:
@@ -9,6 +9,8 @@ workflows:
           package-name: opus
           expected-version: << pipeline.git.tag >>
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /v.*/
       - elixir/precompile_for_macos_arm:
