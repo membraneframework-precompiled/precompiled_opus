@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  precompile_macos_arm:
+    uses: membraneframework/membrane_actions/.github/workflows/precompile-macos-arm.yml@main
+    with:
+      package-name: opus
+      expected-version: ${{ github.ref_name }}
+
+  precompile_linux_x86:
+    uses: membraneframework/membrane_actions/.github/workflows/precompile-linux-x86.yml@main
+    with:
+      package-name: opus
+      expected-version: ${{ github.ref_name }}
+
+  precompile_linux_arm:
+    uses: membraneframework/membrane_actions/.github/workflows/precompile-linux-arm.yml@main
+    with:
+      package-name: opus
+      expected-version: ${{ github.ref_name }}
+
+  publish_precompiled:
+    needs: [precompile_macos_arm, precompile_linux_x86, precompile_linux_arm]
+    uses: membraneframework/membrane_actions/.github/workflows/publish-precompiled.yml@main
+    with:
+      version: ${{ github.ref_name }}
